@@ -1,2 +1,2 @@
 # smarthome
-Scrirpts and addons for Eclipse Smarthome and openHAB
+Scripts and addons for Eclipse Smarthome and openHAB
