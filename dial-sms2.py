@@ -5,7 +5,7 @@ dial-or-sms: dial a list of numbers and playback a .wav file or send SMS
 
 Python script that makes multiple voice calls and plays .wav audio file over GSM modem.
 Analog audio is converted to MIC level signals using two resitors (10Kohm and 100 ohm). 
-You need to connect output to MIC IN pin on SIMCOM modems.
+You need to connect your headphone output to MIC IN pin on SIMCOM modems.
 SIM900 doesn't support AUX line levels, I tried.
 It uses the dial() methods callback mechanism to be informed when the call is answered and ended.
 
