@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """\
-dial-sms2: dial a list of numbers (using callbacks to track call status) or send SMS
+dial-or-sms: dial a list of numbers and playback a .wav file or send SMS
 
-App that makes a voice call and plays audio file over computer's sound card.
+Pythoon script that makes a voice call and plays audio file over GSM modem.
 Analog audio is converted to MIC level signals using two resitors (10Kohm and 100 ohm). SIM900 doesn't support AUX line levels.
 It uses the dial() methods callback mechanism to be informed when the call is answered and ended.
 
