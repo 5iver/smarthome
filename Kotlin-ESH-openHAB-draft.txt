@@ -40,7 +40,7 @@ config {
     //required
     // you may refer to item or channel by special maps called item and channel
     triggers-when = { thing["MotionSensor1"].goesOffline && !item["Light1"].is(ON) &&
-        channel["Motion1"].goes(OPEN, CLOSED) 
+        channel["Door1"].goes(CLOSED, OPEN) 
     }
     
     //optional
