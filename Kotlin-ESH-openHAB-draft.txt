@@ -20,7 +20,7 @@ config {
     //optional
     enabled-when = "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30"
     //optional
-    forbidden-when = "Sun = 06:30-12:30, 15:30-18:30, Wed"
+    forbidden-when = "Sun = 06:30-12:30, 15:30-18:30; Wed"
     
     //optional
     alias-item = { 
