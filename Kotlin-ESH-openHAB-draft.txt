@@ -1,0 +1,73 @@
+rule-config {
+    name = "My Kotlin Rule1"
+    
+    //optional
+    activation-schedule = "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30"
+    //optional
+    forbidden-schedule = "Sun = 06:30-12:30, 15:30-18:30"
+    
+    //optional
+    alias-item = { 
+        "Light1" to "very_very_long_item_name1"
+        "Light2" to "very_very_long_item_name2"
+    }
+    
+    alias-channel = { 
+        "Door1" to "very:very:long:channel:uid1"
+        "Motion1" to "very:very:long:channel:uid2"
+    }
+    
+    alias-thing = { 
+        "MotionSensor1" to "very:very:long:thing:uid1"
+    }
+    
+    //required
+    // you may refer to item or channel by special maps called item and channel
+    triggers-when = { thing["MotionSensor1"].goesOffline && !item["Light1"].is(ON) &&
+        channel["Motion1"].goes(OPEN, CLOSED) 
+    }
+    
+    //optional
+    // you may refer to item or channel by special map called device
+    should-never-trigger-when = { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
+}
+
+actions {
+    // actions go here. free form Kotlin script, with IDE autocomplete,
+    // and some nice helpers available in the context
+    val msg = "Intrusion alert, suspicious activity near ${device["Door1"].label}";
+    // use a predefined function from standard ESH Kotlin extension
+    sendUiNotification(msg)
+
+    // actions on items channels things
+    // device means ESH Item or Channel, thing means ESH Thing
+    device["Light1"].cmd(ON)
+    device["Light2"].cmd(ON)
+
+    // handle collection based actions
+    // sendSMS is Kotlin extension, defined in standard lib or by user lib on Java type such as Person
+    systemConfig.emergencyPersonal.filter(it.name == "Jack" || it.name == "Kim").sendSMS(msg)
+
+    // lookup and use OSGI service, with special systemService helper
+    val jsonStore = systemService<StorageService>()
+    var myStorage: Storage<Int> = jsonStore.getStorage("MyStore")
+    var alertCount? = myStorage.get("AlertCount")
+
+    // null safety made easy
+    // if old alertCount found, increment it, else initialize with 1
+    myStorage.put("AlertCount", alertCount?++:1) 
+}
+
+
+// Another rule. compact one
+
+rule-config {
+    name = "My Wakeup"
+    triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE, 30.minutes) }
+}
+
+actions {
+    item["BedroomLight"].cmd(OFF)
+    thing["Radio1"].channel["volume"].cmd(60.percent)
+    thing["Radio1"].channel["station"].cmd("AltRock2")
+}
