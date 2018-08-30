@@ -1,8 +1,8 @@
 // Rule, compact version
 
 config {
-    name = "My Wakeup"
-    triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    name { "My Wakeup" }
+    triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
 }
 
 actions {
@@ -15,44 +15,45 @@ actions {
 
 // Rule, advanced version
 config {
-    name = "My Kotlin Rule1"
+    name { "My Kotlin Rule1" }
+    
+    //optional. 
+    // this scheduling engine is implemented already
+    enabled-when { "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30" }
+    //optional
+    forbidden-when { "Sun = 06:30-12:30, 15:30-18:30; Wed" }
     
     //optional
-    enabled-when = "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30"
-    //optional
-    forbidden-when = "Sun = 06:30-12:30, 15:30-18:30; Wed"
-    
-    //optional
-    alias-item = { 
+    alias-item { 
         "Light1" to "very_very_long_item_name1"
         "Light2" to "very_very_long_item_name2"
     }
     
-    alias-channel = { 
+    alias-channel { 
         "Door1" to "very:very:long:channel:uid1"
         "Motion1" to "very:very:long:channel:uid2"
     }
     
-    alias-thing = { 
+    alias-thing { 
         "MotionSensor1" to "very:very:long:thing:uid1"
     }
     
     //required
     // you may refer to item or channel by special maps called item and channel
-    triggers-when = { thing["MotionSensor1"].goesOffline && !item["Light1"].is(ON) &&
+    triggers-when { thing["MotionSensor1"].goesOffline && !item["Light1"].is(ON) &&
         channel["Door1"].goes(from = CLOSED, to = OPEN) 
     }
     
     //optional
     // you may refer to item or channel by special map called device
-    should-not-trigger-when = { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
+    should-not-trigger-when { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
     
     // optional
     // continue when thing, item, channel not found or not ready. similar to bash's set -e
-    continue-on-errors = true
+    continue-on-errors { true }
     
     //optional
-    honor-emergency-themes = true
+    honor-emergency-themes { true }
 }
 
 actions {
