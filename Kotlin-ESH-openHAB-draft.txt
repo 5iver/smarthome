@@ -1,10 +1,26 @@
-rule-config {
+// Rule, compact version
+
+config {
+    name = "My Wakeup"
+    triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+}
+
+actions {
+    // don't worry about null safety. the code will continue, with warnings in logs
+    // when items or thing's are not found
+    item["BedroomLight"].cmd(OFF)
+    thing["Radio1"].channel["volume"].cmd(60.percent)
+    thing["Radio1"].channel["station"].cmd("AltRock2")
+}
+
+// Rule, advanced version
+config {
     name = "My Kotlin Rule1"
     
     //optional
-    activation-schedule = "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30"
+    enabled-when = "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30"
     //optional
-    forbidden-schedule = "Sun = 06:30-12:30, 15:30-18:30"
+    forbidden-when = "Sun = 06:30-12:30, 15:30-18:30, Wed"
     
     //optional
     alias-item = { 
@@ -29,7 +45,14 @@ rule-config {
     
     //optional
     // you may refer to item or channel by special map called device
-    should-never-trigger-when = { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
+    should-not-trigger-when = { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
+    
+    // optional
+    // continue when thing, item, channel not found or not ready. similar to bash's set -e
+    continue-on-errors = true
+    
+    //optional
+    honor-emergency-themes = true
 }
 
 actions {
@@ -56,18 +79,4 @@ actions {
     // null safety made easy
     // if old alertCount found, increment it, else initialize with 1
     myStorage.put("AlertCount", alertCount?++:1) 
-}
-
-
-// Another rule. compact one
-
-rule-config {
-    name = "My Wakeup"
-    triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE, 30.minutes) }
-}
-
-actions {
-    item["BedroomLight"].cmd(OFF)
-    thing["Radio1"].channel["volume"].cmd(60.percent)
-    thing["Radio1"].channel["station"].cmd("AltRock2")
 }
