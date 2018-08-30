@@ -9,6 +9,7 @@ actions {
     // don't worry about null safety. the code will continue, with warnings in logs
     // when items or thing's are not found
     item["BedroomLight"].cmd(OFF)
+    thing["Radio1"].channel["power"].cmd(ON)
     thing["Radio1"].channel["volume"].cmd(60.percent)
     thing["Radio1"].channel["station"].cmd("AltRock2")
 }
