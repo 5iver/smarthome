@@ -14,7 +14,7 @@ rule-actions "My Wakeup" {
     thing["Radio1"].channel["station"].cmd("AltRock2")
 }
 
-// Rule, advanced version, in a separate file
+// Rule, advanced version, could be in same or different file
 rule-config "My Kotlin Rule1" {
     //optional. 
     // this scheduling engine is implemented already
