@@ -14,7 +14,7 @@ actions {
     thing["Radio1"].channel["station"].cmd("AltRock2")
 }
 
-// Rule, advanced version
+// Rule, advanced version, in a separate file
 config {
     name { "My Kotlin Rule1" }
     
@@ -81,4 +81,32 @@ actions {
     // null safety made easy
     // if old alertCount found, increment it, else initialize with 1
     myStorage.put("AlertCount", alertCount?++:1) 
+}
+
+offline-test {
+    name = "Scenario1"
+    actions { 
+        thing["MotionSensor1"].setOnline
+        item["Light1"]=ON
+        channel["Door1"]=CLOSED
+    }
+    assert {
+        rule["this"].isNotTrigged &&
+        rule["My Kotlin Rule2"].isNotTrigged
+    }
+}
+
+offline-test {
+    name = "Scenario2"
+    actions {
+        thing["MotionSensor1"].setOnline
+        item["Light1"]=ON
+        channel["Door1"]=CLOSED
+        channel["Door1"]=OPEN
+    }
+    assert {
+        rule["this"].isTrigged &&
+        device["Light2"].is(ON) &&
+        rule["My Kotlin Rule2"].isNotTrigged
+    }
 }
