@@ -3,6 +3,7 @@
 config {
     name { "My Wakeup" }
     triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    retrigger-delay { 23.hours }
 }
 
 actions {
@@ -23,6 +24,7 @@ config {
     enabled-when { "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30" }
     //optional
     forbidden-when { "Sun = 06:30-12:30, 15:30-18:30; Wed" }
+    retrigger-delay { 30.minutes }
     
     //optional
     alias-item { 
