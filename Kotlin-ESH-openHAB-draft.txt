@@ -87,7 +87,7 @@ offline-test-actions "Scenario1" {
 }
 
 offline-test-assert "Scenario1" {
-    rule["My Kotlin Rule1"].isNotTrigged && rule["My Kotlin Rule2"].isNotTrigged
+    rule["My Kotlin Rule1"].isNotTriggered && rule["My Kotlin Rule2"].isNotTriggered
 }
 
 offline-test-actions "Scenario2" {
@@ -98,7 +98,7 @@ offline-test-actions "Scenario2" {
 }
 
 offline-test-assert "Scenario2" {
-    rule["My Kotlin Rule1"].isTrigged &&
+    rule["My Kotlin Rule1"].isTriggered &&
     device["Light2"].is(ON) &&
-    rule["My Kotlin Rule2"].isNotTrigged
+    rule["My Kotlin Rule2"].isNotTriggered
 }
