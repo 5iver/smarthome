@@ -1,12 +1,11 @@
 // Rule, compact version
 
-config {
-    name { "My Wakeup" }
+rule-config "My Wakeup" {
     triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     retrigger-delay { 23.hours }
 }
 
-actions {
+rule-actions "My Wakeup" {
     // don't worry about null safety. the code will continue, with warnings in logs
     // when items or thing's are not found
     item["BedroomLight"].cmd(OFF)
@@ -16,9 +15,7 @@ actions {
 }
 
 // Rule, advanced version, in a separate file
-config {
-    name { "My Kotlin Rule1" }
-    
+rule-config "My Kotlin Rule1" {
     //optional. 
     // this scheduling engine is implemented already
     enabled-when { "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30" }
@@ -59,7 +56,7 @@ config {
     honor-emergency-themes { true }
 }
 
-actions {
+rule-actions "My Kotlin Rule1" {
     // actions go here. free form Kotlin script, with IDE autocomplete,
     // and some nice helpers available in the context
     val msg = "Intrusion alert, suspicious activity near ${device["Door1"].label}";
@@ -85,30 +82,25 @@ actions {
     myStorage.put("AlertCount", alertCount?++:1) 
 }
 
-offline-test {
-    name = "Scenario1"
-    actions { 
-        thing["MotionSensor1"].setOnline
-        item["Light1"]=ON
-        channel["Door1"]=CLOSED
-    }
-    assert {
-        rule["this"].isNotTrigged &&
-        rule["My Kotlin Rule2"].isNotTrigged
-    }
+offline-test-actions "Scenario1" {
+    thing["MotionSensor1"].setOnline
+    item["Light1"]=ON
+    channel["Door1"]=CLOSED
 }
 
-offline-test {
-    name = "Scenario2"
-    actions {
-        thing["MotionSensor1"].setOnline
-        item["Light1"]=ON
-        channel["Door1"]=CLOSED
-        channel["Door1"]=OPEN
-    }
-    assert {
-        rule["this"].isTrigged &&
-        device["Light2"].is(ON) &&
-        rule["My Kotlin Rule2"].isNotTrigged
-    }
+offline-test-assert "Scenario1" {
+    rule["this"].isNotTrigged && rule["My Kotlin Rule2"].isNotTrigged
+}
+
+offline-test-actions "Scenario2" {
+    thing["MotionSensor1"].setOnline
+    item["Light1"]=ON
+    channel["Door1"]=CLOSED
+    channel["Door1"]=OPEN
+}
+
+offline-test-assert "Scenario2" {
+    rule["this"].isTrigged &&
+    device["Light2"].is(ON) &&
+    rule["My Kotlin Rule2"].isNotTrigged
 }
