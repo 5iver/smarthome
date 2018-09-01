@@ -68,7 +68,7 @@ rule-actions "My Kotlin Rule1" {
 
     // handle collection based actions
     // sendSMS is Kotlin extension, defined in standard lib or by user lib on Java type such as Person
-    systemConfig.emergencyPersonal.filter(it.name == "Jack" || it.name == "Kim").sendSMS(msg)
+    systemConfig.emergencyPersonal.filter(it.name == "Jack" || it.name == "Kim").forEach { sendSMS(it.phone, msg) }
 
     // lookup and use OSGI service, with special systemService helper
     val jsonStore = systemService<StorageService>()
