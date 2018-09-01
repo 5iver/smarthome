@@ -10,13 +10,16 @@ rule "My Wakeup" {
         // turn and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
         turn("BedroomLight", ON) // BedroomLight is an item
         sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
-        // Internet Radio1 is thing label. If multiple things are found, this won't do anything
+        // Internet Radio1 is thing label. 
+        // If multiple things are found, this won't do anything
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
         //      power is tagged as default/catchall channel
         "Internet Radio1".turn(ON)
-        "Internet Radio1".turn(60.percent) // channel volume inferred automatically based on data type
-        "Internet Radio1.station".sendCommand("AltRock2") // explicit channel specification
+        // channel volume inferred automatically based on data type
+        "Internet Radio1".turn(60.percent) 
+        // explicit channel specification
+        "Internet Radio1.station".sendCommand("AltRock2") 
     }
 }
 
@@ -42,19 +45,19 @@ rule "My Kotlin Rule1" {
         }
         day(WEDNESDAY)
     }
-    // there could be multiple forbidden-at clauses
+    // there could be multiple forbiddenAt clauses
     // forbiddenAt takes priority over enabledAt
     
-    // if current time is outside enabled-at and forbidden-at, should the rule be enabled?
+    // if current time is outside enabled-at and forbiddenAt, should the rule be enabled?
     enabledByDefault { false }
     
     // optional. how long before rule is allowed to execute again.
     // default 3.seconds
     dontRetriggerWithin { 30.minutes }
     
-    // periodically trigger rule, if not already trigged by trigger-when conditions
+    // periodically trigger rule, if not already trigged by triggerWhen conditions
     // honors forbiddenWhen and suppressWhen conditions
-    // uncommented here since doesn't make sense for this demo use-case of intrusion detection
+    // uncommented here since doesn't make sense for this demo use case of intrusion detection
     // retriggerEvery { 2.hours }
     // retriggerEvery { SUNDAY.at(NOON) }
     // retriggerEvery { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
@@ -71,7 +74,7 @@ rule "My Kotlin Rule1" {
         aliasToThing("FrontMotion", "very:very:long:thing:uid1")
         // multiple aliases can point to same target device
     }
-    // there could be multiple alias clauses
+    // there could be multiple aliases clauses
     
     //required
     // you may refer to item or channel by special maps called item and channel
