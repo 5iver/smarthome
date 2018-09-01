@@ -5,7 +5,7 @@ rule "My Wakeup" {
     dont-retrigger-for { 23.hours }
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
-        // system figures out what you mean
+        // system figures out what you mean. This intelligent dispatcher is already implemented
         turn "BedroomLight" ON // BedroomLight is an item
         turn "BedroomLamp" OFF
         // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
