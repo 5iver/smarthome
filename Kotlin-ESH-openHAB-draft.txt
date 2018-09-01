@@ -110,7 +110,7 @@ offline-test "Scenario2" {
     }
     
     actions = {
-        thing["MotionSensor1"].setStatus(ONLINE)
+        thing["MotionSensor1"].updateStatus(OFFLINE)
         item["Light1"].updateState(ON)
         channel["Door1"].updateState(CLOSED)
         delay(0.5)
