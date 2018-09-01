@@ -112,11 +112,11 @@ offline-test "Scenario2" {
         thing["MotionSensor1"].updateStatus(OFFLINE)
         item["Light1"].updateState(ON)
         channel["Door1"].updateState(CLOSED)
-        delay(0.5)
+        delay(0.5f)
         channel["Door1"].updateState(OPEN)
     }
     
-    assert {
+    assert = {
         rule["My Kotlin Rule1"].isTriggered &&
         device["Light2"].is(ON) &&
         rule["My Kotlin Rule2"].isNotTriggered
