@@ -23,7 +23,7 @@ rule "My Kotlin Rule1" {
     // there could be multiple forbidden-at clauses
     
     // optional. how long before rule is allowed to execute again.
-    // default 5 seconds
+    // default 3.seconds
     retrigger-guard { 30.minutes }
     
     // periodically trigger rule, if not already trigged by trigger-when conditions
@@ -31,8 +31,10 @@ rule "My Kotlin Rule1" {
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
     // retrigger-at-every { 2.hours }
     // retrigger-at-every { SUNDAY.after(NOON) }
+    // retrigger-at-every { SUNDAY.at("14:30") }
     // retrigger-at-every { SUNDAY.before(SUNRISE) }
     // retrigger-at-every { SUNRISE+30.minutes }
+    // there could be multiple  retrigger-at-every clauses
     
     //optional aliases for site specific mappings and readability
     alias {
