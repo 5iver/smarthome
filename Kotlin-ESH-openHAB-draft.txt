@@ -1,14 +1,15 @@
-// Rule, compact version
-
+// Rule, simplest version
+// texts after // are comments
 rule "My Wakeup" {
     trigger-when { item["BedroomLamp"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dont-retrigger-for { 23.hours }
     actions {
-        item["BedroomLight"].cmd(ON)
-        item["BedroomLamp"].cmd(OFF)
-        thing["Radio1"].channel["power"].cmd(ON)
-        thing["Radio1"].channel["volume"].cmd(60.percent)
-        thing["Radio1"].channel["station"].cmd("AltRock2")
+        // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
+        turn ON "BedroomLight" // BedroomLight is an item
+        turn OFF "BedroomLamp"
+        turn ON "Radio1.power" // Radio1 is thing label, power is channel
+        set "Radio1.volume" 60.percent
+        set "Radio1.station" "AltRock2"
     }
 }
 
