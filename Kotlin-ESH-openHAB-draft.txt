@@ -48,7 +48,6 @@ rule "My Kotlin Rule1" {
     // retrigger-every { 2.hours }
     // retrigger-every { SUNDAY.at(NOON) }
     // retrigger-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retrigger-every { SUNDAY.at(SUNRISE) }
     // retrigger-every { SUNRISE+30.minutes }
     // there could be multiple  retrigger-every clauses
     
