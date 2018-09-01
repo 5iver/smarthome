@@ -26,8 +26,8 @@ rule "My Kotlin Rule1" {
     // TODO: monthly and yearly schedule support
     enabledAt { 
         days(MONDAY..FRIDAY) {
-            during 1530.mt..MIDNIGHT // mt means military time, 00:00 to 23:59
-            during MIDNIGHT..SUNRISE
+            during(1530.mt..MIDNIGHT) // mt means military time, 00:00 to 23:59
+            during(MIDNIGHT..SUNRISE)
         }
         day(SATURDAY)
     }
@@ -36,8 +36,8 @@ rule "My Kotlin Rule1" {
     //optional
     forbiddenAt { 
         day(SUNDAY) {
-            during 630.mt..NOON
-            during 1530.mt..SUNSET
+            during(630.mt..NOON)
+            during(1530.mt..SUNSET)
         }
         day(WEDNESDAY)
     }
@@ -62,11 +62,11 @@ rule "My Kotlin Rule1" {
     
     //optional aliases for site specific mappings and readability
     aliases {
-        "Light1" isItem "very_very_long_item_name1"
-        "Light2" isItem "very_very_long_item_name2"
-        "Door1"  isChannel "very:very:long:channel:uid1"
-        "Motion1" isChannel "very:very:long:channel:uid2"
-        "MotionSensor1" isChannel "very:very:long:thing:uid1"
+        "Light1".aliasToItem("very_very_long_item_name1")
+        "Light2".aliasToItem("very_very_long_item_name2")
+        "Door1".aliasToChannel("very:very:long:channel:uid1")
+        "Motion1".aliasToChannel("very:very:long:channel:uid2")
+        "MotionSensor1".aliasToThing("very:very:long:thing:uid1")
     )
     // there could be multiple alias clauses
     
@@ -119,19 +119,10 @@ rule "My Kotlin Rule1" {
 
 // common setup, executed freshly before every test
 commonOfflineTestSetup {
-    // thing, item, channel are maps of respective types, created automatically by framework
-    addTestThings {
-        TestThing("MotionSensor1", "binding2:gateway1:motion:MotionSensor1")
-    }
-    
-    addTestItems {
-        TestItem("Light1", OnOffType::class)
-        TestItem("Light2", OnOffType::class)
-    }
-    
-    addTestChannels {
-        TestChannel("Door1", OpenClosedType::class)
-    }
+    "MotionSensor1".addTestThing("binding2:gateway1:motion:MotionSensor1")
+    "Light1".addTestItem(OnOffType::class)
+    "Light2".addTestItem(OnOffType::class)
+    "Door1".addTestChannel(OpenClosedType::class)
 }
 
 offlineTest "Scenario1" {
@@ -157,20 +148,20 @@ offlineTest "Scenario1" {
 
 offlineTest "Scenario2" {
     setup {
-        println("Running Scenario2")
+        "Running Scenario2".println()
     }
     
     actions {
-        thing["MotionSensor1"].updateStatus(OFFLINE)
+        "MotionSensor1".updateStatus(OFFLINE)
         "Light1".turn(ON)
-        channel["Door1"].updateState(CLOSED)
+        "Door1".updateState(CLOSED)
         delay(0.5f)
         "Door1".updateState(OPEN)
     }
     
     assert {
-        rule["My Kotlin Rule1"].isTriggered && device["Light2"].is(ON)
+        "My Kotlin Rule1".isTriggered && "Light2".is(ON)
     }
     
-    assert { rule["My Kotlin Rule2"]?.isNotTriggered }
+    assert { "My Kotlin Rule2".isNotTriggered }
 }
