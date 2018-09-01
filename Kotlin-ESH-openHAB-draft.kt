@@ -1,19 +1,21 @@
 // Rule, simplest version
 // texts after // are comments
+// this syntax is not exaustive, many examples and documentation coming soon
 rule "My Wakeup" {
     triggerWhen { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dontRetriggerFor { 23.hours }
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
-        turn "BedroomLight" ON // BedroomLight is an item
-        turn "Bedroom1 Lamp" OFF // Bedroom1 Lamp is thing label, see below how dispatch works
+        // turn and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
+        turn("BedroomLight", ON) // BedroomLight is an item
+        sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
         // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
         // command goes to Internet Radio1.power channel:
         // if power is only channel that accepts OnOffType or is tagged as default channel
-        turn "Internet Radio1" ON
-        turn "Internet Radio1" 60.percent // channel volume inferred automatically based on data type
-        turn "Internet Radio1.station" "AltRock2" // explicit channel specification
+        "Internet Radio1".turn(ON)
+        "Internet Radio1".turn(60.percent) // channel volume inferred automatically based on data type
+        "Internet Radio1.station".sendCommand("AltRock2") // explicit channel specification
     }
 }
 
@@ -94,8 +96,8 @@ rule "My Kotlin Rule1" {
 
         // actions on items channels things
         // device means ESH Item or Channel, thing means ESH Thing
-        "Light1".cmd(ON)
-        "Light2".cmd(ON)
+        "Light1".turn(ON) // one way of sending command
+        sendCommand("Light2", ON) // yet another way of sending command
 
         // handle collection based actions
         // sendSMS is Kotlin extension, defined in standard lib or by user lib on Java type such as Person
@@ -140,15 +142,15 @@ offlineTest "Scenario1" {
     
     // test main body
     actions {
-        thing["MotionSensor1"].updateStatus(ThingStatus.ONLINE)
-        item["Light1"].updateState(OnOffType.ON)
-        channel["Door1"].updateState(OpenClosedType.CLOSED)
+        "MotionSensor1".updateStatus(ThingStatus.ONLINE)
+        "Light1".updateState(OnOffType.ON)
+        "Door1".updateState(OpenClosedType.CLOSED)
     }
     // there could be multiple actions clauses
     
     // test assertions
     assert { 
-        rule["My Kotlin Rule1"].isNotTriggered && rule["My Kotlin Rule2"]?.isNotTriggered 
+        "My Kotlin Rule1".isNotTriggered && "My Kotlin Rule2".isNotTriggered 
     }
     // there could be multiple assert clauses
 }
@@ -160,10 +162,10 @@ offlineTest "Scenario2" {
     
     actions {
         thing["MotionSensor1"].updateStatus(OFFLINE)
-        item["Light1"].updateState(ON)
+        "Light1".turn(ON)
         channel["Door1"].updateState(CLOSED)
         delay(0.5f)
-        channel["Door1"].updateState(OPEN)
+        "Door1".updateState(OPEN)
     }
     
     assert {
