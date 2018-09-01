@@ -45,12 +45,12 @@ rule "My Kotlin Rule1" {
     // periodically trigger rule, if not already trigged by trigger-when conditions
     // honors forbidden-when and suppress-when conditions
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
-    // retrigger-at-every { 2.hours }
-    // retrigger-at-every { SUNDAY.at(NOON) }
-    // retrigger-at-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retrigger-at-every { SUNDAY.at(SUNRISE) }
-    // retrigger-at-every { SUNRISE+30.minutes }
-    // there could be multiple  retrigger-at-every clauses
+    // retrigger-every { 2.hours }
+    // retrigger-every { SUNDAY.at(NOON) }
+    // retrigger-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
+    // retrigger-every { SUNDAY.at(SUNRISE) }
+    // retrigger-every { SUNRISE+30.minutes }
+    // there could be multiple  retrigger-every clauses
     
     //optional aliases for site specific mappings and readability
     alias {
