@@ -63,10 +63,12 @@ rule "My Kotlin Rule1" {
     //optional aliases for site specific mappings and readability
     aliases {
         "Light1".aliasToItem("very_very_long_item_name1")
-        "Light2".aliasToItem("very_very_long_item_name2")
+        aliasToItem("Light2", "very_very_long_item_name2")
         "Door1".aliasToChannel("very:very:long:channel:uid1")
-        "Motion1".aliasToChannel("very:very:long:channel:uid2")
+        aliasToChannel("Motion1", "very:very:long:channel:uid2")
         "MotionSensor1".aliasToThing("very:very:long:thing:uid1")
+        aliasToThing("FrontMotion", "very:very:long:thing:uid1")
+        // multiple aliases can point to same target device
     )
     // there could be multiple alias clauses
     
