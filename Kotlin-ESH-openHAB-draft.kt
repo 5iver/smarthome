@@ -106,7 +106,6 @@ rule "My Kotlin Rule1" {
         sendCommand("Light2", ON) // yet another way of sending command
 
         // handle collection based actions
-        // sendSMS is Kotlin extension, defined in standard lib or by user lib on Java type such as Person
         systemConfig.emergencyPersonal.filter(it.name == "Jack" || it.name == "Kim").forEach { sendSMS(it.phone, msg) }
 
         // lookup and use OSGI service, with special systemService helper
