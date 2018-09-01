@@ -3,7 +3,7 @@
 // this syntax is not exaustive, many examples and documentation coming soon
 rule "My Wakeup" {
     triggerWhen { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
-    dontRetriggerFor { 23.hours }
+    dontRetriggerWithin { 23.hours }
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
@@ -50,7 +50,7 @@ rule "My Kotlin Rule1" {
     
     // optional. how long before rule is allowed to execute again.
     // default 3.seconds
-    dontRetriggerFor { 30.minutes }
+    dontRetriggerWithin { 30.minutes }
     
     // periodically trigger rule, if not already trigged by trigger-when conditions
     // honors forbiddenWhen and suppressWhen conditions
