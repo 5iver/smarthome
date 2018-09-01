@@ -70,7 +70,7 @@ rule "My Kotlin Rule1" {
         "MotionSensor1".aliasToThing("very:very:long:thing:uid1")
         aliasToThing("FrontMotion", "very:very:long:thing:uid1")
         // multiple aliases can point to same target device
-    )
+    }
     // there could be multiple alias clauses
     
     //required
