@@ -1,8 +1,8 @@
 // Rule, simplest version
 // texts after // are comments
 rule "My Wakeup" {
-    trigger-when { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
-    dont-retrigger-for { 23.hours }
+    triggerWhen { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    dontRetriggerFor { 23.hours }
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
@@ -12,9 +12,8 @@ rule "My Wakeup" {
         // command goes to Internet Radio1.power channel:
         // if power is only channel that accepts OnOffType or is tagged as default channel
         turn "Internet Radio1" ON
-        set "Internet Radio1" 60.percent // channel volume inferred automatically based on data type
-        set "Internet Radio1.station" "AltRock2" // explicit channel specification
-        // turn and set is basically same!
+        turn "Internet Radio1" 60.percent // channel volume inferred automatically based on data type
+        turn "Internet Radio1.station" "AltRock2" // explicit channel specification
     }
 }
 
@@ -23,17 +22,17 @@ rule "My Kotlin Rule1" {
     //optional. 
     // this weekly scheduling engine is implemented already
     // TODO: monthly and yearly schedule support
-    enabled-at { 
+    enabledAt { 
         days(MONDAY..FRIDAY) {
             during 1530.mt..MIDNIGHT // mt means military time, 00:00 to 23:59
             during MIDNIGHT..SUNRISE
         }
         day(SATURDAY)
     }
-    // there could be multiple enabled-at clauses
+    // there could be multiple enabledAt clauses
     
     //optional
-    forbidden-at { 
+    forbiddenAt { 
         day(SUNDAY) {
             during 630.mt..NOON
             during 1530.mt..SUNSET
@@ -41,50 +40,50 @@ rule "My Kotlin Rule1" {
         day(WEDNESDAY)
     }
     // there could be multiple forbidden-at clauses
-    // forbidden-at takes priority over enabled-at
+    // forbiddenAt takes priority over enabledAt
     
     // if current time is outside enabled-at and forbidden-at, should the rule be enabled?
-    enabled-by-default { false }
+    enabledByDefault { false }
     
     // optional. how long before rule is allowed to execute again.
     // default 3.seconds
-    dont-retrigger-for { 30.minutes }
+    dontRetriggerFor { 30.minutes }
     
     // periodically trigger rule, if not already trigged by trigger-when conditions
-    // honors forbidden-when and suppress-when conditions
+    // honors forbiddenWhen and suppressWhen conditions
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
-    // retrigger-every { 2.hours }
-    // retrigger-every { SUNDAY.at(NOON) }
-    // retrigger-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retrigger-every { SUNRISE+30.minutes }
-    // there could be multiple  retrigger-every clauses
+    // retriggerEvery { 2.hours }
+    // retriggerEvery { SUNDAY.at(NOON) }
+    // retriggerEvery { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
+    // retriggerEvery { SUNRISE+30.minutes }
+    // there could be multiple  retriggerEvery clauses
     
     //optional aliases for site specific mappings and readability
     aliases {
-        "Light1" is-item "very_very_long_item_name1"
-        "Light2" is-item "very_very_long_item_name2"
-        "Door1"  is-channel "very:very:long:channel:uid1"
-        "Motion1" is-channel "very:very:long:channel:uid2"
-        "MotionSensor1" is-channel "very:very:long:thing:uid1"
+        "Light1" isItem "very_very_long_item_name1"
+        "Light2" isItem "very_very_long_item_name2"
+        "Door1"  isChannel "very:very:long:channel:uid1"
+        "Motion1" isChannel "very:very:long:channel:uid2"
+        "MotionSensor1" isChannel "very:very:long:thing:uid1"
     )
     // there could be multiple alias clauses
     
     //required
     // you may refer to item or channel by special maps called item and channel
     // or both of them by a special map called device
-    trigger-when { thing["MotionSensor1"].is(OFFLINE) && !item["Light1"].is(ON) &&
-        channel["Door1"].goes(from = CLOSED, to = OPEN) 
+    triggerWhen { "MotionSensor1".is(OFFLINE) && !"Light1".is(ON) &&
+        "Door1".goesFrom(CLOSED, OPEN) 
     }
-    //optionally you may use addinal trigger-when clauses. rule triggers if at least one clause is satisfied
+    //optionally you may use addinal triggerWhen clauses. rule triggers if at least one clause is satisfied
     
-    // optional suppress-when clauses to not trigger rule when certain conditions are met.
+    // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
     // rule does not trigger if at least one clause is satisfied
-    suppress-when { device["Door1"].is(CLOSED) && device["Motion1"].is(OPEN) }
+    suppressWhen { "Door1".is(CLOSED) && "Motion1".is(OPEN) }
     
     // optional
     // continue when thing, item, channel not found or not ready. similar to bash's set -e
-    continue-on-errors { true }
+    continueOnErrors { true }
     
     actions {
         // actions go here. free form Kotlin script, with IDE autocomplete,
@@ -95,8 +94,8 @@ rule "My Kotlin Rule1" {
 
         // actions on items channels things
         // device means ESH Item or Channel, thing means ESH Thing
-        device["Light1"].cmd(ON)
-        device["Light2"].cmd(ON)
+        "Light1".cmd(ON)
+        "Light2".cmd(ON)
 
         // handle collection based actions
         // sendSMS is Kotlin extension, defined in standard lib or by user lib on Java type such as Person
@@ -117,23 +116,23 @@ rule "My Kotlin Rule1" {
 
 
 // common setup, executed freshly before every test
-common-offline-test-setup {
+commonOfflineTestSetup {
     // thing, item, channel are maps of respective types, created automatically by framework
-    add-test-things {
+    addTestThings {
         TestThing("MotionSensor1", "binding2:gateway1:motion:MotionSensor1")
     }
     
-    add-test-items {
-        TestItem("Light1", OnOffType)
-        TestItem("Light2", OnOffType)
+    addTestItems {
+        TestItem("Light1", OnOffType::class)
+        TestItem("Light2", OnOffType::class)
     }
     
-    add-test-channels {
-        TestChannel("Door1", OpenClosedType)
+    addTestChannels {
+        TestChannel("Door1", OpenClosedType::class)
     }
 }
 
-offline-test "Scenario1" {
+offlineTest "Scenario1" {
     // test specific setup script. executed after common-offline-test-setup
     setup {
         println("Running Scenario1")
@@ -154,7 +153,7 @@ offline-test "Scenario1" {
     // there could be multiple assert clauses
 }
 
-offline-test "Scenario2" {
+offlineTest "Scenario2" {
     setup {
         println("Running Scenario2")
     }
