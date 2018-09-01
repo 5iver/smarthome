@@ -15,12 +15,28 @@ rule "My Wakeup" {
 rule "My Kotlin Rule1" {
     //optional. 
     // this scheduling engine is implemented already
-    enabled-at { "Mon-Fri = 15:30-00:00, 00:00-06:30; Sat; Sun = 00:00-06:30" }
+    enabled-at { 
+        days(MONDAY..FRIDAY) {
+            during 1530.mt..MIDNIGHT // mt means military time, 00:00 to 23:59
+            during MIDNIGHT..SUNRISE
+        }
+        day(SATURDAY)
+    }
     // there could be multiple enabled-at clauses
     
     //optional
-    forbidden-at { "Sun = 06:30-12:30, 15:30-18:30; Wed" }
+    forbidden-at { 
+        day(SUNDAY) {
+            during 630.mt..NOON
+            during 1530.mt..SUNSET
+        }
+        day(WEDNESDAY)
+    }
     // there could be multiple forbidden-at clauses
+    // forbidden-at takes priority over enabled-at
+    
+    // if current time is outside enabled-at and forbidden-at, should the rule be enabled?
+    enabled-by-default { false }
     
     // optional. how long before rule is allowed to execute again.
     // default 3.seconds
@@ -31,7 +47,7 @@ rule "My Kotlin Rule1" {
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
     // retrigger-at-every { 2.hours }
     // retrigger-at-every { SUNDAY.after(NOON) }
-    // retrigger-at-every { SUNDAY.at("14:30") }
+    // retrigger-at-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
     // retrigger-at-every { SUNDAY.before(SUNRISE) }
     // retrigger-at-every { SUNRISE+30.minutes }
     // there could be multiple  retrigger-at-every clauses
