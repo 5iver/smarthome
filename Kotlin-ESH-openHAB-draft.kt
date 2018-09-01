@@ -10,9 +10,10 @@ rule "My Wakeup" {
         // turn and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
         turn("BedroomLight", ON) // BedroomLight is an item
         sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
-        // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
-        // command goes to Internet Radio1.power channel:
-        // if power is only channel that accepts OnOffType or is tagged as default channel
+        // Internet Radio1 is thing label. If multiple things are found, this won't do anything
+        // command goes to Internet Radio1's power channel if:
+        //      power is only channel that accepts OnOffType OR 
+        //      power is tagged as default/catchall channel
         "Internet Radio1".turn(ON)
         "Internet Radio1".turn(60.percent) // channel volume inferred automatically based on data type
         "Internet Radio1.station".sendCommand("AltRock2") // explicit channel specification
