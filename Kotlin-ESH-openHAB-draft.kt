@@ -7,7 +7,7 @@ rule "My Wakeup" {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
         turn "BedroomLight" ON // BedroomLight is an item
-        turn "BedroomLamp" OFF
+        turn "Bedroom Lamp" OFF
         // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
         // command goes to Internet Radio1.power channel:
         // if power is only channel that accepts OnOffType or is tagged as default channel
