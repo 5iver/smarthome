@@ -1,15 +1,20 @@
 // Rule, simplest version
 // texts after // are comments
 rule "My Wakeup" {
-    trigger-when { item["BedroomLamp"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    trigger-when { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dont-retrigger-for { 23.hours }
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
-        turn ON "BedroomLight" // BedroomLight is an item
-        turn OFF "BedroomLamp"
-        turn ON "Radio1.power" // Radio1 is thing label, power is channel
-        set "Radio1.volume" 60.percent
-        set "Radio1.station" "AltRock2"
+        // system figures out what you mean
+        turn "BedroomLight" ON // BedroomLight is an item
+        turn "BedroomLamp" OFF
+        // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
+        // command goes to Internet Radio1.power channel:
+        // if power is only channel that accepts OnOffType or is tagged as default channel
+        turn "Internet Radio1" ON
+        set "Internet Radio1" 60.percent // channel volume inferred automatically based on data type
+        set "Internet Radio1.station" "AltRock2" // explicit channel specification
+        // turn and set is basically same!
     }
 }
 
