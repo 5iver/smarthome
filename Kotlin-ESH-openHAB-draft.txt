@@ -1,8 +1,8 @@
 // Rule, compact version
 
 rule "My Wakeup" {
-    trigger-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
-    retrigger-guard { 23.hours }
+    triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    dont-retrigger-for { 23.hours }
     actions {
         item["BedroomLight"].cmd(OFF)
         thing["Radio1"].channel["power"].cmd(ON)
@@ -41,19 +41,19 @@ rule "My Kotlin Rule1" {
     
     // optional. how long before rule is allowed to execute again.
     // default 3.seconds
-    retrigger-guard { 30.minutes }
+    dont-retrigger-for { 30.minutes }
     
     // periodically trigger rule, if not already trigged by trigger-when conditions
     // honors forbidden-when and suppress-when conditions
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
-    // retrigger-every { 2.hours }
-    // retrigger-every { SUNDAY.at(NOON) }
-    // retrigger-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retrigger-every { SUNRISE+30.minutes }
-    // there could be multiple  retrigger-every clauses
+    // retriggers-every { 2.hours }
+    // retriggers-every { SUNDAY.at(NOON) }
+    // retriggers-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
+    // retriggers-every { SUNRISE+30.minutes }
+    // there could be multiple  retriggers-every clauses
     
     //optional aliases for site specific mappings and readability
-    alias {
+    aliases {
         "Light1" is-item "very_very_long_item_name1"
         "Light2" is-item "very_very_long_item_name2"
         "Door1"  is-channel "very:very:long:channel:uid1"
@@ -64,11 +64,11 @@ rule "My Kotlin Rule1" {
     
     //required
     // you may refer to item or channel by special maps called item and channel
-    // you may refer to item or channel by special map called device
-    trigger-when { thing["MotionSensor1"].is(OFFLINE) && !item["Light1"].is(ON) &&
+    // or both of them by a special map called device
+    triggers-when { thing["MotionSensor1"].is(OFFLINE) && !item["Light1"].is(ON) &&
         channel["Door1"].goes(from = CLOSED, to = OPEN) 
     }
-    //optionally you may use addinal trigger-when clauses. rule triggers if at least one clause is satisfied
+    //optionally you may use addinal triggers-when clauses. rule triggers if at least one clause is satisfied
     
     // optional suppress-when clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
