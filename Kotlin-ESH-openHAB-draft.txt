@@ -1,8 +1,8 @@
 // Rule, compact version
 
 rule "My Wakeup" {
-    triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
-    retrigger-guard = { 23.hours }
+    triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    retrigger-guard { 23.hours }
     actions {
         item["BedroomLight"].cmd(OFF)
         thing["Radio1"].channel["power"].cmd(ON)
