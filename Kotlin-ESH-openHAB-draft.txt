@@ -14,7 +14,8 @@ rule "My Wakeup" {
 // Rule, advanced version, could be in same or different file
 rule "My Kotlin Rule1" {
     //optional. 
-    // this scheduling engine is implemented already
+    // this weekly scheduling engine is implemented already
+    // TODO: monthly and yearly schedule support
     enabled-at { 
         days(MONDAY..FRIDAY) {
             during 1530.mt..MIDNIGHT // mt means military time, 00:00 to 23:59
