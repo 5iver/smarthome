@@ -3,7 +3,7 @@
 rule "My Wakeup" {
     triggers-when = { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     retrigger-delay = { 23.hours }
-    actions {
+    actions = {
         item["BedroomLight"].cmd(OFF)
         thing["Radio1"].channel["power"].cmd(ON)
         thing["Radio1"].channel["volume"].cmd(60.percent)
