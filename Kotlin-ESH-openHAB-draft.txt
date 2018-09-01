@@ -46,9 +46,9 @@ rule "My Kotlin Rule1" {
     // honors forbidden-when and suppress-when conditions
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
     // retrigger-at-every { 2.hours }
-    // retrigger-at-every { SUNDAY.after(NOON) }
+    // retrigger-at-every { SUNDAY.at(NOON) }
     // retrigger-at-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retrigger-at-every { SUNDAY.before(SUNRISE) }
+    // retrigger-at-every { SUNDAY.at(SUNRISE) }
     // retrigger-at-every { SUNRISE+30.minutes }
     // there could be multiple  retrigger-at-every clauses
     
