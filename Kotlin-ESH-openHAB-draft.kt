@@ -1,13 +1,20 @@
-// Rule, compact version
-
+// Rule, simplest version
+// texts after // are comments
 rule "My Wakeup" {
-    triggers-when { item["BedroomLight"].is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    trigger-when { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dont-retrigger-for { 23.hours }
     actions {
-        item["BedroomLight"].cmd(OFF)
-        thing["Radio1"].channel["power"].cmd(ON)
-        thing["Radio1"].channel["volume"].cmd(60.percent)
-        thing["Radio1"].channel["station"].cmd("AltRock2")
+        // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
+        // system figures out what you mean. This intelligent dispatcher is already implemented
+        turn "BedroomLight" ON // BedroomLight is an item
+        turn "BedroomLamp" OFF
+        // Internet Radio1 is thing label, power is channel. If multiple things are found, this won't do anything
+        // command goes to Internet Radio1.power channel:
+        // if power is only channel that accepts OnOffType or is tagged as default channel
+        turn "Internet Radio1" ON
+        set "Internet Radio1" 60.percent // channel volume inferred automatically based on data type
+        set "Internet Radio1.station" "AltRock2" // explicit channel specification
+        // turn and set is basically same!
     }
 }
 
@@ -46,11 +53,11 @@ rule "My Kotlin Rule1" {
     // periodically trigger rule, if not already trigged by trigger-when conditions
     // honors forbidden-when and suppress-when conditions
     // uncommented here since doesn't make sense for this demo use-case of intrusion detection
-    // retriggers-every { 2.hours }
-    // retriggers-every { SUNDAY.at(NOON) }
-    // retriggers-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
-    // retriggers-every { SUNRISE+30.minutes }
-    // there could be multiple  retriggers-every clauses
+    // retrigger-every { 2.hours }
+    // retrigger-every { SUNDAY.at(NOON) }
+    // retrigger-every { SUNDAY.at(1530.mt) } // mt means military time, 00:00 to 23:59 hours
+    // retrigger-every { SUNRISE+30.minutes }
+    // there could be multiple  retrigger-every clauses
     
     //optional aliases for site specific mappings and readability
     aliases {
@@ -65,10 +72,10 @@ rule "My Kotlin Rule1" {
     //required
     // you may refer to item or channel by special maps called item and channel
     // or both of them by a special map called device
-    triggers-when { thing["MotionSensor1"].is(OFFLINE) && !item["Light1"].is(ON) &&
+    trigger-when { thing["MotionSensor1"].is(OFFLINE) && !item["Light1"].is(ON) &&
         channel["Door1"].goes(from = CLOSED, to = OPEN) 
     }
-    //optionally you may use addinal triggers-when clauses. rule triggers if at least one clause is satisfied
+    //optionally you may use addinal trigger-when clauses. rule triggers if at least one clause is satisfied
     
     // optional suppress-when clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
