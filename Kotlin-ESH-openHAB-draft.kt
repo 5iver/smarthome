@@ -122,7 +122,7 @@ rule "My Kotlin Rule1" {
 
 // common setup, executed freshly before every test
 commonOfflineTestSetup {
-    "MotionSensor1".addAsTestThingWithUID("binding2:gateway1:motion:MotionSensor1")
+    "MotionSensor1".addAsTestThing("binding2:gateway1:motion:MotionSensor1")
     "Light1".addAsTestItem(OnOffType::class)
     addAsTestItem("Light2", OnOffType::class)
     "Door1".addAsTestChannel(OpenClosedType::class)
