@@ -77,12 +77,12 @@ rule "My Kotlin Rule1" {
     // there could be multiple aliases clauses
     
     // optional
-    triggerWhen { "MotionSensor1".is(OFFLINE) && !"Light1".is(ON) &&
-        "Door1".wentFrom(CLOSED, OPEN) 
+    triggerWhen { "MotionSensor1".status(OFFLINE) && !"Light1".is(ON) &&
+        "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
-    // other usages: "Outdoor Light".receivedCommand(ON) || "Outdoor Light".receivedUpdate(OFF) 
-    //               "Outdoor Light".went(OFFLINE)
+    // other usages: "Outdoor Light".receivesCommand(ON) || "Outdoor Light".receivesUpdate(OFF) 
+    //               "Outdoor Light".statusGoes(OFFLINE)
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
