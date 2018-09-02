@@ -1,4 +1,4 @@
-// Rule, simplest version
+// Kotlin Rule, simplest version
 // texts after // are comments
 // this syntax is not exaustive, many examples and documentation coming soon
 rule "My Wakeup" {
@@ -23,7 +23,7 @@ rule "My Wakeup" {
     }
 }
 
-// Rule, advanced version, could be in same or different file
+// Kotlin Rule, advanced version, could be in same or different file
 rule "My Kotlin Rule1" {
     //optional. 
     // this weekly scheduling engine is implemented already
@@ -125,7 +125,7 @@ rule "My Kotlin Rule1" {
 }
 
 
-// common setup, executed freshly before every test
+// common offline test setup, executed freshly before every offline test
 commonOfflineTestSetup {
     "MotionSensor1".addAsTestThing("binding2:gateway1:motion:MotionSensor1")
     "Light1".addAsTestItem(OnOffType::class)
