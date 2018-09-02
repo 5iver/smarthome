@@ -81,8 +81,11 @@ rule "My Kotlin Rule1" {
         "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
-    // other usages: "Outdoor Light".receivesCommand(ON) || "Outdoor Light".receivesUpdate(OFF) 
+    // other usages: "Outdoor Light".receivesCommand(ON)
+    //               "Outdoor Light".receivesUpdate(OFF) 
     //               "Outdoor Light".statusGoes(OFFLINE)
+    //               "Outdoor Light".statusGoesFrom(ONLINE, OFFLINE)
+    // Note that goesFrom() operates on channels/items, whereas statusGoesFrom() operates on Thing status
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
@@ -158,7 +161,7 @@ offlineTest "Scenario2" {
     
     actions {
         "MotionSensor1".updateStatus(OFFLINE)
-        "Light1".turn(ON)
+        "Light1".sendCommand(ON)
         "Door1".updateState(CLOSED)
         delay(0.5f)
         "Door1".updateState(OPEN)
