@@ -48,7 +48,7 @@ rule "My Kotlin Rule1" {
     // there could be multiple forbiddenAt clauses
     // forbiddenAt takes priority over enabledAt
     
-    // if current time is outside enabled-at and forbiddenAt, should the rule be enabled?
+    // if current time is outside enabledAt and forbiddenAt, should the rule be enabled?
     enabledByDefault { false }
     
     // optional. how long before rule is allowed to execute again.
@@ -56,7 +56,7 @@ rule "My Kotlin Rule1" {
     dontRetriggerWithin { 30.minutes }
     
     // periodically trigger rule, if not already trigged by triggerWhen conditions
-    // honors forbiddenWhen and suppressWhen conditions
+    // honors forbiddenAt and suppressWhen conditions
     // uncommented here since doesn't make sense for this demo use case of intrusion detection
     // retriggerEvery { 2.hours }
     // retriggerEvery { SUNDAY.at(NOON) }
@@ -76,13 +76,13 @@ rule "My Kotlin Rule1" {
     }
     // there could be multiple aliases clauses
     
-    //required
-    // you may refer to item or channel by special maps called item and channel
-    // or both of them by a special map called device
+    // optional
     triggerWhen { "MotionSensor1".is(OFFLINE) && !"Light1".is(ON) &&
-        "Door1".goesFrom(CLOSED, OPEN) 
+        "Door1".wentFrom(CLOSED, OPEN) 
     }
-    //optionally you may use addinal triggerWhen clauses. rule triggers if at least one clause is satisfied
+    //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
+    // other usages: "Outdoor Light".receivedCommand(ON) || "Outdoor Light".receivedUpdate(OFF) 
+    //               "Outdoor Light".went(OFFLINE)
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
