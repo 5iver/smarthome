@@ -99,7 +99,7 @@ rule "My Kotlin Rule1" {
     actions {
         // actions go here. free form Kotlin script, with IDE autocomplete,
         // and some nice helpers available in the context
-        val msg = "Intrusion alert, suspicious activity near ${device["Door1"].label}";
+        val msg = "Intrusion alert, suspicious activity near ${device["Door1"].label}"
         // use a predefined function from standard ESH Kotlin extension
         sendUiNotification(msg)
 
