@@ -15,7 +15,7 @@ rule "My Wakeup" {
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
         //      power is tagged as default/catchall channel
-        "Internet Radio1".setTo(ON)
+        setTo(ON, "Internet Radio1")
         // channel volume inferred automatically based on data type
         "Internet Radio1".setTo(60.percent) 
         // explicit channel specification
