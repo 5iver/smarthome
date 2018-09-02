@@ -77,7 +77,7 @@ rule "My Kotlin Rule1" {
     // there could be multiple aliases clauses
     
     // optional
-    triggerWhen { "MotionSensor1".status(OFFLINE) && !"Light1".is(ON) &&
+    triggerWhen { "MotionSensor1".statusIs(OFFLINE) && !"Light1".is(ON) &&
         "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
@@ -85,7 +85,7 @@ rule "My Kotlin Rule1" {
     //               "Outdoor Light".receivesUpdate(OFF) 
     //               "Outdoor Light".statusGoes(OFFLINE)
     //               "Outdoor Light".statusGoesFrom(ONLINE, OFFLINE)
-    // Note that goesFrom() operates on channels/items, whereas statusGoesFrom() operates on Thing status
+    // Note that goesFrom() operates on channels/items states, whereas status*() operates on Thing
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
