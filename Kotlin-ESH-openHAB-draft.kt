@@ -7,17 +7,17 @@ rule "My Wakeup" {
     actions {
         // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
-        // turn and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
-        turn("BedroomLight", ON) // BedroomLight is an item
+        // setTo and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
+        "BedroomLight".setTo(ON) // BedroomLight is an item
         sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
         // Internet Radio1 is thing label. 
         // If multiple things are found, this won't do anything
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
         //      power is tagged as default/catchall channel
-        "Internet Radio1".turn(ON)
+        "Internet Radio1".setTo(ON)
         // channel volume inferred automatically based on data type
-        "Internet Radio1".turn(60.percent) 
+        "Internet Radio1".setTo(60.percent) 
         // explicit channel specification
         "Internet Radio1.station".sendCommand("AltRock2") 
     }
@@ -102,7 +102,7 @@ rule "My Kotlin Rule1" {
 
         // actions on items channels things
         // device means ESH Item or Channel, thing means ESH Thing
-        "Light1".turn(ON) // one way of sending command
+        "Light1".setTo(ON) // one way of sending command
         sendCommand("Light2", ON) // yet another way of sending command
 
         // handle collection based actions
@@ -138,9 +138,9 @@ offlineTest "Scenario1" {
     
     // test main body
     actions {
-        "MotionSensor1".updateStatus(ThingStatus.ONLINE)
-        "Light1".updateState(OnOffType.ON)
-        "Door1".updateState(OpenClosedType.CLOSED)
+        "MotionSensor1".updateStatus(ONLINE)
+        "Light1".updateState(ON)
+        "Door1".updateState(CLOSED)
     }
     // there could be multiple actions clauses
     
