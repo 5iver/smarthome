@@ -11,7 +11,7 @@ rule "My Wakeup" {
         "BedroomLight".setTo(ON) // BedroomLight is an item
         sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
         // Internet Radio1 is thing label. 
-        // If multiple things are found, this won't do anything
+        // If multiple candidate things/channels are found, this won't do anything
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
         //      power is tagged as default/catchall channel
