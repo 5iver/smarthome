@@ -162,7 +162,7 @@ offlineTest "Scenario1" {
     // there could be multiple actions clauses
     
     // test assertions
-    assert { 
+    assertTest { 
         "My Kotlin Rule1".isNotTriggered && "My Kotlin Rule2".isNotTriggered 
     }
     // there could be multiple assert clauses
@@ -181,9 +181,9 @@ offlineTest "Scenario2" {
         "Door1".updateState(OPEN)
     }
     
-    assert {
+    assertTest {
         "My Kotlin Rule1".isTriggered && "Light2".is(ON)
     }
     
-    assert { "My Kotlin Rule2".isNotTriggered }
+    assertTest { "My Kotlin Rule2".isNotTriggered }
 }
