@@ -6,9 +6,10 @@ rule "My Wakeup" {
     dontRetriggerWithin { 23.hours }
     actions {
         // To specify a target you may use any of: 
-        //      Thing Label, Thing UID, Item name, Channel UID, 
-        //      Thing Label.channelName, Location.Thing Label
-        //      Location.Thing Label.ChannelName
+        //      Thing Label, ThingUID, ItemName, ChannelUID 
+        //      Thing Label.channelName
+        //      Location.Thing Label
+        //      Location.Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
         // see below how dispatch works
         // setTo and sendCommand are same 
@@ -17,7 +18,7 @@ rule "My Wakeup" {
         // philips_hue_Bedroom1_Light is an item name
         "philips_hue_Bedroom1_Light".setTo(ON) // Kotin extension function style
         
-        // Bedroom1 is location and Lamp is thing label
+        // Bedroom1 is Thing location and Lamp is Thing label
         sendCommand("Bedroom1.Lamp", OFF) // traditional function style
         
         // Internet Radio1 below is thing label
