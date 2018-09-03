@@ -12,7 +12,8 @@ rule "My Wakeup" {
         //      Location.Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
         // see below how dispatch works
-        // setTo and sendCommand are same 
+        // setTo and sendCommand are same, they send outgoing command
+        // updateTo and updateState are aliases, they only update state at server
         // you can invoke in traditional function style or Kotlin extention style
         
         // Bedroom1_Light is an item name
@@ -34,6 +35,10 @@ rule "My Wakeup" {
         
         // explicit channel specification
         "Internet Radio1.station".sendCommand("AltRock2") 
+        
+        // update family member state
+        updateTo(AWAKE, "Our.Michael")
+        // other states: AWAY, ASLEEP, OUTSTATION, ATSCHOOL, ATWORK, any suggestions?
     }
 }
 
@@ -91,20 +96,27 @@ rule "My Kotlin Rule1" {
     // there could be multiple aliases clauses
     
     // optional
-    triggerWhen { "MotionSensor1".statusIs(OFFLINE) && !"Light1".is(ON) &&
+    triggerWhen { "MotionSensor1".is(OFFLINE) && !"Light1".is(ON) &&
         "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
-    // other usages: "Outdoor Light".receivesCommand(ON)
-    //               "Outdoor Light".receivesUpdate(OFF) 
-    //               "Outdoor Light".statusGoes(OFFLINE)
-    //               "Outdoor Light".statusGoesFrom(ONLINE, OFFLINE)
-    // Note that goesFrom() operates on channels/items states, whereas status*() operates on Thing
+    // other usage: 
+    // Outdoor is location, Light is thing lable
+    //               "Outdoor.Light".receivesCommand(ON)
+    //               "Outdoor.Light.power".receivesUpdate(OFF) 
+    //               "Outdoor.Light".is(OFF)
+    //               "Outdoor.Light".goes(OFF)
+    //               "Outdoor.Light".goesFrom(ON, OFF)
+    //               "Outdoor.Light".is(OFFLINE)
+    //               "Outdoor.Light.power".goes(OFFLINE)
+    //               "Outdoor.Light".goesFrom(ONLINE, OFFLINE)
+    // is(), goes() and goesFrom() can operate on item/thing/channel
+    // if you use thing status like ONLINE/OFFLINE, the target thing is inferred automatically
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
     // rule does not trigger if at least one clause is satisfied
-    suppressWhen { "Door1".is(CLOSED) && "Motion1".is(OPEN) }
+    suppressWhen { "Door1".is(CLOSED) && "Motion1".is(ONLINE) && "Motion1".is(OPEN) }
     
     // optional
     // continue when thing, item, channel not found or not ready. similar to bash's set -e
@@ -162,7 +174,7 @@ offlineTest "Scenario1" {
     // there could be multiple actions clauses
     
     // test assertions
-    assertTest { 
+    assertIf { 
         "My Kotlin Rule1".isNotTriggered && "My Kotlin Rule2".isNotTriggered 
     }
     // there could be multiple assert clauses
@@ -181,9 +193,9 @@ offlineTest "Scenario2" {
         "Door1".updateState(OPEN)
     }
     
-    assertTest {
+    assertIf {
         "My Kotlin Rule1".isTriggered && "Light2".is(ON)
     }
     
-    assertTest { "My Kotlin Rule2".isNotTriggered }
+    assertIf { "My Kotlin Rule2".isNotTriggered }
 }
