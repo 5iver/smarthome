@@ -15,7 +15,7 @@ rule "My Wakeup" {
         // setTo and sendCommand are same 
         // you can invoke in traditional function style or Kotlin extention style
         
-        // philips_hue_Bedroom1_Light is an item name
+        // Bedroom1_Light is an item name
         "Bedroom1_Light".setTo(ON) // Kotin extension function style
         
         // Bedroom1 is Thing location and Lamp is Thing label
