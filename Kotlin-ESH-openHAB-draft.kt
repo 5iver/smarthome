@@ -2,22 +2,35 @@
 // texts after // are comments
 // this syntax is not exaustive, many examples and documentation coming soon
 rule "My Wakeup" {
-    triggerWhen { "Bedroom1 Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
+    triggerWhen { "Bedroom1.Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dontRetriggerWithin { 23.hours }
     actions {
-        // You may use any of: Thing Label, Thing UID, Item name, Channel UID, Thing Label.channelName
+        // To specify a target you may use any of: 
+        //      Thing Label, Thing UID, Item name, Channel UID, 
+        //      Thing Label.channelName, Location.Thing Label
+        //      Location.Thing Label.ChannelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
-        // setTo and sendCommand are same. you can invoke in traditional function style or Kotlin extention style
-        "BedroomLight".setTo(ON) // BedroomLight is an item
-        sendCommand("Bedroom1 Lamp", OFF) // Bedroom1 Lamp is thing label, see below how dispatch works
-        // Internet Radio1 is thing label. 
-        // If multiple candidate things/channels are found, this won't do anything
+        // see below how dispatch works
+        // setTo and sendCommand are same 
+        // you can invoke in traditional function style or Kotlin extention style
+        
+        // philips_hue_Bedroom1_Light is an item name
+        "philips_hue_Bedroom1_Light".setTo(ON) // Kotin extension function style
+        
+        // Bedroom1 is location and Lamp is thing label
+        sendCommand("Bedroom1.Lamp", OFF) // traditional function style
+        
+        // Internet Radio1 below is thing label
+        // If multiple ambiguos things/channels are found, this won't do anything, 
+        //      in such a case either change Thing Labels or use ItemName or ChannelUID
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
-        //      power is tagged as default/catchall channel
+        //      power is tagged as default/catchall channel for that ThingType
         setTo(ON, "Internet Radio1")
+        
         // channel volume inferred automatically based on data type
         "Internet Radio1".setTo(60.percent) 
+        
         // explicit channel specification
         "Internet Radio1.station".sendCommand("AltRock2") 
     }
