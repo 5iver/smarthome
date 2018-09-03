@@ -13,7 +13,7 @@ rule "My Wakeup" {
         // system figures out what you mean. This intelligent dispatcher is already implemented
         // see below how dispatch works
         // setTo and sendCommand are same, they send outgoing command
-        // updateTo and updateState are aliases, they only update state at server
+        // updateTo and updateState are same, they only update state at server
         // you can invoke in traditional function style or Kotlin extention style
         
         // Bedroom1_Light is an item name
