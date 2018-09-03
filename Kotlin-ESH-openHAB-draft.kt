@@ -16,7 +16,7 @@ rule "My Wakeup" {
         // you can invoke in traditional function style or Kotlin extention style
         
         // philips_hue_Bedroom1_Light is an item name
-        "philips_hue_Bedroom1_Light".setTo(ON) // Kotin extension function style
+        "Bedroom1_Light".setTo(ON) // Kotin extension function style
         
         // Bedroom1 is Thing location and Lamp is Thing label
         sendCommand("Bedroom1.Lamp", OFF) // traditional function style
