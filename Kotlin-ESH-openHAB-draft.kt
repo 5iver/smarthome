@@ -76,8 +76,8 @@ rule "My Kotlin Rule1" {
     // default 3.seconds
     dontRetriggerWithin { 30.minutes }
     
-    // periodically trigger rule, honors dontRetriggerWithin above
-    // honors forbiddenAt and suppressWhen conditions
+    // periodically trigger rule
+    // honors dontRetriggerWithin, forbiddenAt and suppressWhen conditions
     // uncommented here since doesn't make sense for this demo use case of intrusion detection
     // retriggerEvery { 2.hours }
     // retriggerEvery { SUNDAY.at(NOON) }
