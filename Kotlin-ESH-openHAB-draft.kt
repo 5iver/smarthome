@@ -40,6 +40,8 @@ rule "Michael Wakesup" {
         // update family member state
         updateTo(AWAKE, "Our.Michael")
         // other states: AWAY, ASLEEP, OUTSTATION, ATSCHOOL, ATWORK, any suggestions?
+        // To create family, you have to create String Items and tag them with "family"
+        // other tags could be "friends", "relatives", "pets", "guests", any suggestions?
     }
 }
 
