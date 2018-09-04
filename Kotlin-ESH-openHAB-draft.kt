@@ -14,7 +14,6 @@ rule "Michael Wakesup" {
         // see below how dispatch works
         // setTo and sendCommand are synonym, they send outgoing command
         // updateTo and updateState are synonym, they only update state at server
-        // you can invoke in traditional function style or Kotlin extention style
         
         // Bedroom1_Light is an item name
         "Bedroom1_Light".setTo(ON) // Kotin extension function style
@@ -29,16 +28,16 @@ rule "Michael Wakesup" {
         // command goes to Internet Radio1's power channel if:
         //      power is only channel that accepts OnOffType OR 
         //      power is tagged as default/catchall channel for that ThingType
-        setTo(ON, "Internet Radio1")
+        "Internet Radio1".setTo(ON)
         
         // channel volume inferred automatically based on data type
         "Internet Radio1".setTo(60.percent) 
         
         // explicit channel specification
-        "Internet Radio1.station".sendCommand("AltRock2") 
+        "Internet Radio1.station".setTo("AltRock2") 
         
         // update family member state
-        updateTo(AWAKE, "Our.Michael")
+        "Our.Michael".updateTo(AWAKE)
         // other states: AWAY, ASLEEP, OUTSTATION, ATSCHOOL, ATWORK, any suggestions?
         // To create family, you have to create String Items and tag them with "family"
         // other tags could be "friends", "relatives", "pets", "guests", any suggestions?
@@ -89,11 +88,11 @@ rule "My Kotlin Rule1" {
     //optional aliases for site specific mappings and readability
     aliases {
         "Light1".aliasToItem("very_very_long_item_name1")
-        aliasToItem("Light2", "very_very_long_item_name2")
+        "Light2".aliasToItem("very_very_long_item_name2")
         "Door1".aliasToChannel("very:very:long:channel:uid1")
-        aliasToChannel("Motion1", "very:very:long:channel:uid2")
+        "Motion1".aliasToChannel("very:very:long:channel:uid2")
         "MotionSensor1".aliasToThing("very:very:long:thing:uid1")
-        aliasToThing("FrontMotion", "very:very:long:thing:uid1")
+        "FrontMotion".aliasToThing("very:very:long:thing:uid1")
         // multiple aliases can point to same target device
     }
     // there could be multiple aliases clauses
@@ -170,7 +169,7 @@ rule "My Kotlin Rule1" {
 commonOfflineTestSetup {
     "MotionSensor1".addAsTestThing("binding2:gateway1:motion:MotionSensor1")
     "Light1".addAsTestItem(OnOffType::class)
-    addAsTestItem("Light2", OnOffType::class)
+    "Light2".addAsTestItem(OnOffType::class)
     "Door1".addAsTestChannel(OpenClosedType::class)
 }
 
@@ -197,7 +196,7 @@ offlineTest "Scenario1" {
 
 offlineTest "Scenario2" {
     setup {
-        "Running Scenario2".println()
+        println("Running Scenario2")
     }
     
     actions {
