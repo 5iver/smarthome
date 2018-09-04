@@ -101,7 +101,8 @@ rule "My Kotlin Rule1" {
         "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
-    // other usage: Outdoor is location, Light is thing lable
+    // other usage: 
+    // Outdoor is location, Light is thing lable below
     // ==========================================================
     //  "Outdoor.Light".receivedCommand(ON), same as "Outdoor.Light".getsSetTo(ON)
     //  "Outdoor.Light.power".receivedUpdate(OFF), same as "Outdoor.Light.power".getsUpdatedTo(OFF) 
