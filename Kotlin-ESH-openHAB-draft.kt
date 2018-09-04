@@ -1,7 +1,7 @@
 // Kotlin Rule, simplest version
 // texts after // are comments
 // this syntax is not exaustive, many examples and documentation coming soon
-rule "My Wakeup" {
+rule "Michael Wakesup" {
     triggerWhen { "Bedroom1.Lamp".is(ON) && currentTime.isAfter(SUNRISE + 30.minutes) }
     dontRetriggerWithin { 23.hours }
     actions {
