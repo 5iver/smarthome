@@ -101,18 +101,21 @@ rule "My Kotlin Rule1" {
         "Door1".goesFrom(CLOSED, OPEN) 
     }
     //there could be multiple triggerWhen clauses. rule triggers if at least one clause is satisfied
-    // other usage: 
-    // Outdoor is location, Light is thing lable
-    //               "Outdoor.Light".receivesCommand(ON)
-    //               "Outdoor.Light.power".receivesUpdate(OFF) 
-    //               "Outdoor.Light".is(OFF)
-    //               "Outdoor.Light".goes(OFF)
-    //               "Outdoor.Light".goesFrom(ON, OFF)
-    //               "Outdoor.Light".is(OFFLINE)
-    //               "Outdoor.Light.power".goes(OFFLINE)
-    //               "Outdoor.Light".goesFrom(ONLINE, OFFLINE)
+    // other usage: Outdoor is location, Light is thing lable
+    // ==========================================================
+    //  "Outdoor.Light".receivedCommand(ON), same as "Outdoor.Light".getsSetTo(ON)
+    //  "Outdoor.Light.power".receivedUpdate(OFF), same as "Outdoor.Light.power".getsUpdatedTo(OFF) 
+    //  "Outdoor.Light".is(OFF)
+    //  "Outdoor.Light".goes(OFF)
+    //  "Outdoor.Light".goesFrom(ON, OFF)
+    //  "Outdoor.Light".is(OFFLINE)
+    //  "Outdoor.Light.power".goes(OFFLINE)
+    //  "Outdoor.Light".goesFrom(ONLINE, OFFLINE)
+    // ==========================================================
     // is(), goes() and goesFrom() can operate on item/thing/channel
     // if you use thing status like ONLINE/OFFLINE, the target thing is inferred automatically
+    // receivedCommand is synonym to getsSetTo
+    // receivedUpdate is synonym to getsUpdatedTo
     
     // optional suppressWhen clauses to not trigger rule when certain conditions are met.
     // they take priority over trigger-when clauses
