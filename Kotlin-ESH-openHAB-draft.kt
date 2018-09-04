@@ -12,14 +12,15 @@ rule "My Wakeup" {
         //      Location.Thing Label.channelName
         // system figures out what you mean. This intelligent dispatcher is already implemented
         // see below how dispatch works
-        // setTo and sendCommand are same, they send outgoing command
-        // updateTo and updateState are same, they only update state at server
+        // setTo and sendCommand are synonym, they send outgoing command
+        // updateTo and updateState are synonym, they only update state at server
         // you can invoke in traditional function style or Kotlin extention style
         
         // Bedroom1_Light is an item name
         "Bedroom1_Light".setTo(ON) // Kotin extension function style
         
         // Bedroom1 is Thing location and Lamp is Thing label
+        // sendCommand synonym is kept for backwards compatibility to rules DSL
         sendCommand("Bedroom1.Lamp", OFF) // traditional function style
         
         // Internet Radio1 below is thing label
@@ -127,29 +128,37 @@ rule "My Kotlin Rule1" {
         // and some nice helpers available in the context
         val msg = "Intrusion alert, suspicious activity near Door1"
         // use a predefined function from standard ESH Kotlin extension
+        // openHAB actions are also supported
         sendUiNotification(msg)
 
         // actions on items channels things
-        // device means ESH Item or Channel, thing means ESH Thing
-        "Light1".setTo(ON) // one way of sending command
-        sendCommand("Light2", ON) // yet another way of sending command
+        "Light1".setTo(ON) // sends outgoing command to device
+        // other actions are:
+        //      "Door1".updateTo(CLOSED) // updates state at server only
+        
+        // yet another way of sending command. kept for backwards compatibility to RulesDSL
+        sendCommand("Light2", ON) 
+        // other backwards compatible actions are:
+        //      updateState("Door1", CLOSED)
 
-        // handle collection based actions
+        // handle collection based actions using LAMBDA expression
+        // Imagine systemConfig to be an entry point into configuration data, 
+        //     the exact structure will be documented soon
+        // You can have multiple actions inside forEach { }
         systemConfig.emergencyPersonal.filter(it.name == "Jack" || it.name == "Kim").forEach { sendSMS(it.phone, msg) }
 
         // lookup and use OSGI service, with special systemService helper
         val jsonStore = systemService<StorageService>()
         var myStorage: Storage<Int> = jsonStore.getStorage("MyStore")
-        var alertCount? = myStorage.get("AlertCount")
-
+        
         // null safety made easy
         // if old alertCount found, increment it, else initialize with 1
-        myStorage.put("AlertCount", alertCount?++:1) 
+        var alertCount = myStorage.get("AlertCount")?.plus(1) : 1;
+        myStorage.put("AlertCount", alertCount)
     }
     
     // there could be multiple actions clauses
 }
-
 
 // common offline test setup, executed freshly before every offline test
 commonOfflineTestSetup {
@@ -167,9 +176,9 @@ offlineTest "Scenario1" {
     
     // test main body
     actions {
-        "MotionSensor1".updateStatus(ONLINE)
-        "Light1".updateState(ON)
-        "Door1".updateState(CLOSED)
+        "MotionSensor1".updateTo(ONLINE)
+        "Light1".setTo(ON)
+        "Door1".updateTo(CLOSED)
     }
     // there could be multiple actions clauses
     
@@ -186,11 +195,11 @@ offlineTest "Scenario2" {
     }
     
     actions {
-        "MotionSensor1".updateStatus(OFFLINE)
-        "Light1".sendCommand(ON)
-        "Door1".updateState(CLOSED)
+        "MotionSensor1".updateTo(OFFLINE)
+        "Light1".setTo(ON)
+        "Door1".updateTo(CLOSED)
         delay(0.5f)
-        "Door1".updateState(OPEN)
+        "Door1".updateTo(OPEN)
     }
     
     assertIf {
